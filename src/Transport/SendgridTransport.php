@@ -19,7 +19,8 @@ use Swift_MimePart;
 use Swift_TransportException;
 
 /**
- * Class SendgridTransport.
+ * Class SendgridTransport
+ * @package Nip\Mail\Transport
  */
 class SendgridTransport extends AbstractTransport
 {
@@ -53,8 +54,8 @@ class SendgridTransport extends AbstractTransport
             return 1;
         } else {
             throw new Swift_TransportException(
-                'Error sending email Code ['.$response->statusCode().']. '.
-                $response->body().$response->headers()
+                'Error sending email Code [' . $response->statusCode() . ']. ' .
+                $response->body() . $response->headers()
             );
         }
     }
@@ -97,7 +98,6 @@ class SendgridTransport extends AbstractTransport
 
     /**
      * @param Message|MessageInterface $message
-     *
      * @throws Exception
      */
     protected function populatePersonalization($message)
@@ -118,8 +118,7 @@ class SendgridTransport extends AbstractTransport
      * @param $emailTo
      * @param $nameTo
      * @param Message $message
-     * @param $i
-     *
+     * @param integer $i
      * @return Personalization
      */
     protected function generatePersonalization($emailTo, $nameTo, $message, $i)
@@ -137,7 +136,7 @@ class SendgridTransport extends AbstractTransport
                 $value = $value[$i];
             }
             $value = (string) $value;
-            $personalization->addSubstitution('{{'.$varKey.'}}', $value);
+            $personalization->addSubstitution('{{' . $varKey . '}}', $value);
         }
 
         return $personalization;
@@ -162,31 +161,30 @@ class SendgridTransport extends AbstractTransport
         foreach ($message->getChildren() as $child) {
             if ($child instanceof Swift_Image) {
                 $images[] = [
-                    'type'    => $child->getContentType(),
-                    'name'    => $child->getId(),
+                    'type' => $child->getContentType(),
+                    'name' => $child->getId(),
                     'content' => base64_encode($child->getBody()),
                 ];
             } elseif ($child instanceof Swift_Attachment && !($child instanceof Swift_Image)) {
                 $this->addAttachment($child);
             } elseif ($child instanceof Swift_MimePart && $this->supportsContentType($child->getContentType())) {
-                if ($child->getContentType() == 'text/html') {
+                if ($child->getContentType() == "text/html") {
                     $bodyHtml = $child->getBody();
-                } elseif ($child->getContentType() == 'text/plain') {
+                } elseif ($child->getContentType() == "text/plain") {
                     $bodyText = $child->getBody();
                 }
             }
         }
 
-        $content = new Content('text/plain', $bodyText);
+        $content = new Content("text/plain", $bodyText);
         $this->getMail()->addContent($content);
 
-        $content = new Content('text/html', $bodyHtml);
+        $content = new Content("text/html", $bodyHtml);
         $this->getMail()->addContent($content);
     }
 
     /**
      * @param MessageInterface $message
-     *
      * @return string
      */
     protected function getMessagePrimaryContentType(MessageInterface $message)
@@ -210,7 +208,6 @@ class SendgridTransport extends AbstractTransport
 
     /**
      * @param string $contentType
-     *
      * @return bool
      */
     protected function supportsContentType($contentType)
@@ -219,7 +216,7 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getSupportedContentTypes()
     {
@@ -238,7 +235,7 @@ class SendgridTransport extends AbstractTransport
         $sgAttachment->setContent(base64_encode($attachment->getBody()));
         $sgAttachment->setType($attachment->getContentType());
         $sgAttachment->setFilename($attachment->getFilename());
-        $sgAttachment->setDisposition('attachment');
+        $sgAttachment->setDisposition("attachment");
         $sgAttachment->setContentID($attachment->getId());
         $this->getMail()->addAttachment($sgAttachment);
     }
@@ -259,15 +256,15 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @throws Swift_TransportException
-     *
      * @return SendGrid
+     * @throws Swift_TransportException
      */
     protected function createApi()
     {
         if ($this->getApiKey() === null) {
             throw new Swift_TransportException('Cannot create instance of \Mandrill while API key is NULL');
         }
+
 
         $sg = new SendGrid($this->getApiKey());
 
@@ -284,7 +281,6 @@ class SendgridTransport extends AbstractTransport
 
     /**
      * @param string $apiKey
-     *
      * @return $this
      */
     public function setApiKey($apiKey)
