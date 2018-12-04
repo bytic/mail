@@ -22,6 +22,7 @@
   },
   "require": {
     "php": "^7.0",
+    "bytic/container": "^1.0",
     "bytic/utility": "^1.0",
     "html2text/html2text": "^4.0",
     "sendgrid/sendgrid": "^5.0",
