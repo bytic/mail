@@ -3,10 +3,10 @@
 namespace Nip\Mail\Models\MergeTags;
 
 /**
- * Class RecordTrait
+ * Trait RecordTrait
  * @package Nip\Mail\Models\MergeTags
  */
-class RecordTrait
+trait RecordTrait
 {
     protected $mergeTagsDbField = 'vars';
 
