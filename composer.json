@@ -24,6 +24,7 @@
     "php": "^7.0",
     "bytic/config": "^0.9",
     "bytic/container": "^0.9",
+    "bytic/database": "^0.9",
     "bytic/utility": "^1.0",
     "html2text/html2text": "^4.0",
     "sendgrid/sendgrid": "^5.0",
