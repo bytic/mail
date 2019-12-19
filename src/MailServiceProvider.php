@@ -22,15 +22,19 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
 
     protected function registerTransport()
     {
-        $transportManager = new TransportManager();
-        $this->getContainer()->share('mailer.transport', $transportManager->create());
+        $this->getContainer()->share('mailer.transport', function () {
+            $transportManager = new TransportManager();
+            return $transportManager->create();
+        });
     }
 
     protected function registerMailer()
     {
-        $transport = $this->getContainer()->get('mailer.transport');
-        $mailer = new Mailer($transport);
-        $this->getContainer()->share('mailer', $mailer);
+        $this->getContainer()->share('mailer', function () {
+            $transport = $this->getContainer()->get('mailer.transport');
+            $mailer = new Mailer($transport);
+            return $mailer;
+        });
     }
 
     /**
