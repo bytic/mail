@@ -17,7 +17,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Nip\\Mail\\Tests\\": "tests/",
+      "Nip\\Mail\\Tests\\": "tests/src",
       "Nip\\Mail\\Tests\\Fixtures\\": "tests/fixtures"
     }
   },

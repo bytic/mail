@@ -31,6 +31,15 @@ class Message extends Swift_Message implements Swift_Mime_Message
     }
 
     /**
+     * @param $name
+     * @param $value
+     */
+    public function addMergeTag($name, $value)
+    {
+        $this->mergeTags[$name] = $value;
+    }
+
+    /**
      * @return array
      */
     public function getCustomArgs()
