@@ -81,7 +81,14 @@ trait RecordTrait
      */
     public function buildMailMessageMergeTags(&$message)
     {
-        $message->setMergeTags($this->getMergeTags());
+        $mergeTags = $this->getMergeTags();
+        $body = $this->getBody();
+        foreach ($mergeTags as $tag => $value) {
+            $encapsulated = \Nip\Mail\Models\MergeTags\RecordTrait::encapsulate($tag);
+            if (strpos($body, $encapsulated) !== false) {
+                $message->addMergeTag($tag, $value);
+            }
+        }
     }
 
     /**

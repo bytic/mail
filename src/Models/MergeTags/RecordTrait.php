@@ -16,6 +16,15 @@ trait RecordTrait
     protected $mergeTags = null;
 
     /**
+     * @param string $key
+     * @return string
+     */
+    public static function encapsulate($key)
+    {
+        return '{{' . $key . '}}';
+    }
+
+    /**
      * @return array|null
      */
     public function getMergeTags()
