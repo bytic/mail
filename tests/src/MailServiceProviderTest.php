@@ -15,6 +15,7 @@ class MailServiceProviderTest extends AbstractTest
     public function testRegister()
     {
         $provider = new MailServiceProvider();
+        $provider->initContainer();
         $provider->register();
 
         static::assertInstanceOf(Mailer::class, $provider->getContainer()->get('mailer'));
