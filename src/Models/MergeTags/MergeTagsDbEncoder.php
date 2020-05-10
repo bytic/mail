@@ -3,7 +3,7 @@
 namespace Nip\Mail\Models\MergeTags;
 
 use Nip\Utility\Str;
-use Symfony\Component\Translation\Exception\InvalidResourceException;
+use InvalidArgumentException;
 
 /**
  * Class MergeTagsDbEncoder
@@ -36,7 +36,7 @@ class MergeTagsDbEncoder
         $data = json_decode($data, true);
 
         if (0 < $errorCode = json_last_error()) {
-            throw new InvalidResourceException('Error parsing JSON: ' . static::getJSONErrorMessage($errorCode));
+            throw new InvalidArgumentException('Error parsing JSON: ' . static::getJSONErrorMessage($errorCode));
         }
         return $data;
     }
