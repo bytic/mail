@@ -2,7 +2,6 @@
 
 namespace Nip\Mail\Tests;
 
-use Nip\Container\Container;
 use Nip\Mail\Mailer;
 use Nip\Mail\MailServiceProvider;
 use Nip\Mail\Transport\AbstractTransport;
@@ -16,7 +15,7 @@ class MailServiceProviderTest extends AbstractTest
     public function testRegister()
     {
         $provider = new MailServiceProvider();
-        $provider->setContainer(new Container());
+        $provider->initContainer();
         $provider->register();
 
         static::assertInstanceOf(Mailer::class, $provider->getContainer()->get('mailer'));
