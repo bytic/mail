@@ -16,7 +16,8 @@ class TransportManagerTest extends AbstractTest
     {
         /** @var TransportManager|Mock $manager */
         $manager = \Mockery::mock(TransportManager::class)->shouldAllowMockingProtectedMethods()->makePartial();
-        $manager->shouldReceive('resolve')->with('smtp')->once()->andReturn(true);
+        $manager->shouldReceive('getDefaultDriver')->andReturn('sendgrid');
+        $manager->shouldReceive('resolve')->with('sendgrid')->once()->andReturn(true);
 
         self::assertSame($manager->transport(), $manager->transport());
     }
