@@ -2,7 +2,8 @@
 
 namespace Nip\Mail;
 
-use Nip\Config\ConfigAwareTrait;
+use InvalidArgumentException;
+use Nip\Config\Utils\PackageHasConfigTrait;
 use Nip\Mail\Transport\AbstractTransport;
 use Nip\Mail\Transport\SendgridTransport;
 use Swift_SmtpTransport as SmtpTransport;
@@ -13,27 +14,78 @@ use Swift_SmtpTransport as SmtpTransport;
  */
 class TransportManager
 {
-    use ConfigAwareTrait;
+    use PackageHasConfigTrait;
 
     /**
+     * The array of resolved mailers.
+     *
+     * @var array
+     */
+    protected $transports = [];
+
+    /**
+     * The registered custom driver creators.
+     *
+     * @var array
+     */
+    protected $customCreators = [];
+
+    /**
+     * @param null $name
      * @return AbstractTransport
      */
-    public function create()
+    public function transport($name = null)
     {
-        return $this->createSendgridTransport();
+        $name = $name ?: $this->getDefaultDriver();
+
+        return $this->transports[$name] = $this->get($name);
+    }
+
+    /**
+     * Attempt to get the transport from the local cache.
+     *
+     * @param  string  $name
+     * @return AbstractTransport
+     */
+    protected function get($name)
+    {
+        return $this->transports[$name] ?? $this->resolve($name);
+    }
+
+    /**
+     * @param string $name
+     * @return AbstractTransport
+     */
+    protected function resolve($name)
+    {
+        $config = static::getPackageConfig('mailers.' . $name);
+
+        if (is_null($config)) {
+            throw new InvalidArgumentException("Mailer [{$name}] is not defined.");
+        }
+        $config = $config->toArray();
+
+        if (isset($this->customCreators[$name])) {
+            return call_user_func($this->customCreators[$name], $config);
+        }
+
+        if (trim($name) === '' || !method_exists($this, $method = 'create' . ucfirst($name) . 'Transport')) {
+            throw new InvalidArgumentException("Unsupported mail transport [{$name}].");
+        }
+
+        return $this->{$method}($config);
     }
 
     /**
      * Create an instance of the Mailgun Swift Transport driver.
      *
+     * @param array $config
      * @return SendgridTransport
      */
-    protected function createSendgridTransport()
+    protected function createSendgridTransport(array $config)
     {
-        $config = $this->getConfig();
-
         $transport = new SendgridTransport();
-        $transport->setApiKey($config->get('SENDGRID.key'));
+        $transport->setApiKey($config['api_key']);
 
         return $transport;
     }
@@ -41,12 +93,11 @@ class TransportManager
     /**
      * Create an instance of the SMTP Swift Transport driver.
      *
+     * @param array $config
      * @return SmtpTransport
      */
-    protected function createSmtpTransport()
+    protected function createSmtpTransport(array $config)
     {
-        $config = $this->getConfig()->get('mail');
-
         // The Swift SMTP transport instance will allow us to use any SMTP backend
         // for delivering mail such as Sendgrid, Amazon SES, or a custom server
         // a developer has available. We will just pass this configured host.
@@ -66,5 +117,26 @@ class TransportManager
             $transport->setStreamOptions($config['stream']);
         }
         return $transport;
+    }
+
+    /**
+     * Get the default mail driver name.
+     *
+     * @return string
+     */
+    public function getDefaultDriver()
+    {
+        // Here we will check if the "driver" key exists and if it does we will use
+        // that as the default driver in order to provide support for old styles
+        // of the Laravel mail configuration file for backwards compatibility.
+        return static::getPackageConfig('default', 'smtp');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function getPackageConfigName()
+    {
+        return 'mail';
     }
 }

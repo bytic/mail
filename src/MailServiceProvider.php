@@ -24,7 +24,7 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
     {
         $this->getContainer()->share('mailer.transport', function () {
             $transportManager = new TransportManager();
-            return $transportManager->create();
+            return $transportManager->transport();
         });
     }
 
