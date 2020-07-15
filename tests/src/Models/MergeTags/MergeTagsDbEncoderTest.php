@@ -32,7 +32,7 @@ class MergeTagsDbEncoderTest extends AbstractTest
     {
         $data = ['fo', ['abc' => 'qwe', 3 => 'asd', 'zxc'], 'fgh' => 'vbn'];
 
-        $serialized = json_encode($data).'++';
+        $serialized = json_encode($data) . '++';
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Error parsing JSON: Syntax error, malformed JSON");
         self::assertSame($data, MergeTagsDbEncoder::decode($serialized));
