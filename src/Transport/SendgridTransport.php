@@ -46,7 +46,6 @@ class SendgridTransport extends AbstractTransport
 
         $sg = $this->createApi();
 
-        /** @noinspection PhpUndefinedMethodInspection */
         /** @var SendGrid\Response $response */
         $response = $sg->client->mail()->send()->post($this->getMail());
 
