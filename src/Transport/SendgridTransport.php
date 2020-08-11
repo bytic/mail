@@ -54,8 +54,9 @@ class SendgridTransport extends AbstractTransport
             return 1;
         } else {
             throw new Swift_TransportException(
-                'Error sending email Code [' . $response->statusCode() . ']. ' .
-                $response->body() . $response->headers()
+                'Error sending email Code [' . $response->statusCode() . ']. '
+                . 'HEADERS [' . print_r($response->headers())
+                . $response->body()
             );
         }
     }
