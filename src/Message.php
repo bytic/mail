@@ -3,16 +3,16 @@
 namespace Nip\Mail;
 
 use Swift_Message;
-use Swift_Mime_Message;
 
 /**
  * Class Message
  * @package Nip\Mail
  */
-class Message extends Swift_Message implements Swift_Mime_Message
+class Message extends Swift_Message
 {
     protected $mergeTags = [];
-    protected $custom_args = [];
+
+    protected $customArgs = [];
 
     /**
      * @return array
@@ -44,15 +44,15 @@ class Message extends Swift_Message implements Swift_Mime_Message
      */
     public function getCustomArgs()
     {
-        return $this->custom_args;
+        return $this->customArgs;
     }
 
     /**
-     * @param array $custom_args
+     * @param array $customArgs
      */
-    public function setCustomArgs($custom_args)
+    public function setCustomArgs($customArgs)
     {
-        $this->custom_args = $custom_args;
+        $this->customArgs = $customArgs;
     }
 
     /**
@@ -61,6 +61,6 @@ class Message extends Swift_Message implements Swift_Mime_Message
      */
     public function addCustomArg($key, $value)
     {
-        $this->custom_args[$key] = $value;
+        $this->customArgs[$key] = $value;
     }
 }

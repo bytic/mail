@@ -97,25 +97,59 @@ class TransportManager
      * @return SmtpTransport
      */
     protected function createSmtpTransport(array $config)
-    {
-        // The Swift SMTP transport instance will allow us to use any SMTP backend
+    {// The Swift SMTP transport instance will allow us to use any SMTP backend
         // for delivering mail such as Sendgrid, Amazon SES, or a custom server
         // a developer has available. We will just pass this configured host.
-        $transport = SmtpTransport::newInstance($config['host'], $config['port']);
+        $transport = new SmtpTransport(
+            $config['host'],
+            $config['port']
+        );
 
-        if (isset($config['encryption'])) {
+        if (!empty($config['encryption'])) {
             $transport->setEncryption($config['encryption']);
         }
+
         // Once we have the transport we will check for the presence of a username
         // and password. If we have it we will set the credentials on the Swift
         // transporter instance so that we'll properly authenticate delivery.
         if (isset($config['username'])) {
             $transport->setUsername($config['username']);
+
             $transport->setPassword($config['password']);
         }
+
+        return $this->configureSmtpTransport($transport, $config);
+    }
+
+    /**
+     * Configure the additional SMTP driver options.
+     *
+     * @param \Swift_SmtpTransport $transport
+     * @param array $config
+     * @return \Swift_SmtpTransport
+     */
+    protected function configureSmtpTransport($transport, array $config)
+    {
         if (isset($config['stream'])) {
             $transport->setStreamOptions($config['stream']);
         }
+
+        if (isset($config['source_ip'])) {
+            $transport->setSourceIp($config['source_ip']);
+        }
+
+        if (isset($config['local_domain'])) {
+            $transport->setLocalDomain($config['local_domain']);
+        }
+
+        if (isset($config['timeout'])) {
+            $transport->setTimeout($config['timeout']);
+        }
+
+        if (isset($config['auth_mode'])) {
+            $transport->setAuthMode($config['auth_mode']);
+        }
+
         return $transport;
     }
 

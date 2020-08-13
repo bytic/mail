@@ -5,16 +5,17 @@ namespace Nip\Mail\Transport;
 use Exception;
 use Html2Text\Html2Text;
 use Nip\Mail\Message;
+use ReflectionClass;
+use ReflectionException;
 use SendGrid;
-use SendGrid\Attachment;
-use SendGrid\Content;
-use SendGrid\Email;
-use SendGrid\Mail;
-use SendGrid\Personalization;
-use SendGrid\ReplyTo;
+use SendGrid\Mail\Attachment;
+use SendGrid\Mail\Content;
+use SendGrid\Mail\Mail;
+use SendGrid\Mail\Personalization;
+use SendGrid\Mail\To;
 use Swift_Attachment;
 use Swift_Image;
-use Swift_Mime_Message as MessageInterface;
+use Swift_Mime_SimpleMessage as SwiftSimpleMessage;
 use Swift_MimePart;
 use Swift_TransportException;
 
@@ -28,14 +29,23 @@ class SendgridTransport extends AbstractTransport
     protected $apiKey;
 
     /**
-     * @var null|Mail|MessageInterface
+     * @var null|Mail|SwiftSimpleMessage
      */
     protected $mail = null;
 
     /**
-     * {@inheritdoc}
+     * @return null|string
      */
-    public function send(\Swift_Mime_Message $message, &$failedRecipients = null)
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @throws Exception
+     */
+    public function send(SwiftSimpleMessage $message, &$failedRecipients = null)
     {
         $this->initMail();
 
@@ -44,10 +54,14 @@ class SendgridTransport extends AbstractTransport
         $this->populateContent($message);
         $this->populateCustomArg($message);
 
-        $sg = $this->createApi();
-
-        /** @var SendGrid\Response $response */
-        $response = $sg->client->mail()->send()->post($this->getMail());
+        $sendGrid = $this->createApi();
+        try {
+            $response = $sendGrid->send($this->getMail());
+        } catch (Exception $exception) {
+            throw new Swift_TransportException(
+                'Error sending email Code [' . $exception->getMessage() . ']'
+            );
+        }
 
         if ($response->statusCode() == '202') {
             return 1;
@@ -66,17 +80,14 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @param Message|MessageInterface $message
+     * @param Message|SwiftSimpleMessage $message
      */
     protected function populateSenders($message)
     {
         $from = $message->getFrom();
         foreach ($from as $address => $name) {
-            $email = new Email($name, $address);
-            $this->getMail()->setFrom($email);
-
-            $reply_to = new ReplyTo($address);
-            $this->getMail()->setReplyTo($reply_to);
+            $this->getMail()->addFrom($address, $name);
+            $this->getMail()->addReplyTo($address, $name);
         }
     }
 
@@ -97,7 +108,7 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @param Message|MessageInterface $message
+     * @param Message|SwiftSimpleMessage $message
      * @throws Exception
      */
     protected function populatePersonalization($message)
@@ -106,11 +117,11 @@ class SendgridTransport extends AbstractTransport
         if (!is_array($emailsTos) or count($emailsTos) < 1) {
             throw new Exception('Cannot send email withought reciepients');
         }
-        $i = 0;
+        $personalizationIndex = 0;
         foreach ($emailsTos as $emailTo => $nameTo) {
-            $personalization = $this->generatePersonalization($emailTo, $nameTo, $message, $i);
+            $personalization = $this->generatePersonalization($emailTo, $nameTo, $message, $personalizationIndex);
             $this->getMail()->addPersonalization($personalization);
-            $i++;
+            $personalizationIndex++;
         }
     }
 
@@ -120,12 +131,13 @@ class SendgridTransport extends AbstractTransport
      * @param Message $message
      * @param integer $i
      * @return Personalization
+     * @throws SendGrid\Mail\TypeException
      */
     protected function generatePersonalization($emailTo, $nameTo, $message, $i)
     {
         $personalization = new Personalization();
 
-        $email = new Email($nameTo, $emailTo);
+        $email = new To($emailTo, $nameTo);
         $personalization->addTo($email);
 
         $personalization->setSubject($message->getSubject());
@@ -143,7 +155,9 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @param Message|MessageInterface $message
+     * @param Message|SwiftSimpleMessage $message
+     * @throws SendGrid\Mail\TypeException
+     * @throws ReflectionException
      */
     protected function populateContent($message)
     {
@@ -184,10 +198,11 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @param MessageInterface $message
+     * @param SwiftSimpleMessage $message
      * @return string
+     * @throws ReflectionException
      */
-    protected function getMessagePrimaryContentType(MessageInterface $message)
+    protected function getMessagePrimaryContentType(SwiftSimpleMessage $message)
     {
         $contentType = $message->getContentType();
         if ($this->supportsContentType($contentType)) {
@@ -196,7 +211,7 @@ class SendgridTransport extends AbstractTransport
         // SwiftMailer hides the content type set in the constructor of Swift_Mime_Message as soon
         // as you add another part to the message. We need to access the protected property
         // _userContentType to get the original type.
-        $messageRef = new \ReflectionClass($message);
+        $messageRef = new ReflectionClass($message);
         if ($messageRef->hasProperty('_userContentType')) {
             $propRef = $messageRef->getProperty('_userContentType');
             $propRef->setAccessible(true);
@@ -228,6 +243,7 @@ class SendgridTransport extends AbstractTransport
 
     /**
      * @param Swift_Attachment $attachment
+     * @throws SendGrid\Mail\TypeException
      */
     protected function addAttachment($attachment)
     {
@@ -241,7 +257,8 @@ class SendgridTransport extends AbstractTransport
     }
 
     /**
-     * @param Message|MessageInterface $message
+     * @param Message|SwiftSimpleMessage $message
+     * @throws SendGrid\Mail\TypeException
      */
     protected function populateCustomArg($message)
     {
@@ -262,21 +279,10 @@ class SendgridTransport extends AbstractTransport
     protected function createApi()
     {
         if ($this->getApiKey() === null) {
-            throw new Swift_TransportException('Cannot create instance of \Mandrill while API key is NULL');
+            throw new Swift_TransportException('Cannot create instance of \SendGrid while API key is NULL');
         }
 
-
-        $sg = new SendGrid($this->getApiKey());
-
-        return $sg;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
+        return new SendGrid($this->getApiKey());
     }
 
     /**
