@@ -10,7 +10,6 @@ use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
  */
 class MailServiceProvider extends AbstractSignatureServiceProvider
 {
-
     /**
      * @inheritdoc
      */
