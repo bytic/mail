@@ -21,4 +21,3 @@ class HasAttachmentsTraitTest extends AbstractTest
         static::assertCount(2, $message->getChildren());
     }
 }
-

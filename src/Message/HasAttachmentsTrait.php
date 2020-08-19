@@ -18,6 +18,5 @@ trait HasAttachmentsTrait
     {
         $attachment = new Swift_Attachment($content, $name);
         $this->attach($attachment);
-
     }
 }

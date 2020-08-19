@@ -8,7 +8,6 @@ namespace Nip\Mail\Message;
  */
 trait HasMergeArgsTrait
 {
-
     protected $mergeTags = [];
 
     protected $customArgs = [];
