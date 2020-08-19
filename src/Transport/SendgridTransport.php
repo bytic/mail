@@ -54,24 +54,7 @@ class SendgridTransport extends AbstractTransport
         $this->populateContent($message);
         $this->populateCustomArg($message);
 
-        $sendGrid = $this->createApi();
-        try {
-            $response = $sendGrid->send($this->getMail());
-        } catch (Exception $exception) {
-            throw new Swift_TransportException(
-                'Error sending email Code [' . $exception->getMessage() . ']'
-            );
-        }
-
-        if ($response->statusCode() == '202') {
-            return 1;
-        } else {
-            throw new Swift_TransportException(
-                'Error sending email Code [' . $response->statusCode() . ']. '
-                . 'HEADERS [' . print_r($response->headers())
-                . $response->body()
-            );
-        }
+        return $this->sendApiCall();
     }
 
     public function initMail()
@@ -86,8 +69,8 @@ class SendgridTransport extends AbstractTransport
     {
         $from = $message->getFrom();
         foreach ($from as $address => $name) {
-            $this->getMail()->addFrom($address, $name);
-            $this->getMail()->addReplyTo($address, $name);
+            $this->getMail()->setFrom($address, $name);
+            $this->getMail()->setReplyTo($address, $name);
         }
     }
 
@@ -269,6 +252,32 @@ class SendgridTransport extends AbstractTransport
             } else {
                 $this->getMail()->addCustomArg($key, (string) $value);
             }
+        }
+    }
+
+    /**
+     * @return int
+     * @throws Swift_TransportException
+     */
+    protected function sendApiCall()
+    {
+        $sendGrid = $this->createApi();
+        try {
+            $response = $sendGrid->send($this->getMail());
+        } catch (Exception $exception) {
+            throw new Swift_TransportException(
+                'Error sending email Code [' . $exception->getMessage() . ']'
+            );
+        }
+
+        if ($response->statusCode() == '202') {
+            return 1;
+        } else {
+            throw new Swift_TransportException(
+                'Error sending email Code [' . $response->statusCode() . ']. '
+                . 'HEADERS [' . print_r($response->headers())
+                . $response->body()
+            );
         }
     }
 
