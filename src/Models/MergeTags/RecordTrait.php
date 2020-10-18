@@ -70,6 +70,12 @@ trait RecordTrait
     protected function getMergeTagsDbFieldValue()
     {
         $field = $this->mergeTagsDbField;
-        return isset($this->{$field}) ? $this->{$field} : null;
+        if (method_exists($this,'getPropertyRaw')) {
+            return $this->getPropertyRaw($field);
+        }
+        if (property_exists($this, $field)) {
+            return $this->{$field};
+        }
+        return null;
     }
 }
