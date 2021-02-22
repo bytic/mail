@@ -72,6 +72,12 @@ class SendgridTransport extends AbstractTransport
             $this->getMail()->setFrom($address, $name);
             $this->getMail()->setReplyTo($address, $name);
         }
+        $reply = $message->getReplyTo();
+        if (is_array($reply)) {
+            foreach ($reply as $address => $name) {
+                $this->getMail()->setReplyTo($address, $name);
+            }
+        }
     }
 
     /**
