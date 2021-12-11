@@ -2,11 +2,9 @@
 
 namespace Nip\Mail\Tests;
 
-use Nip\Config\Config;
-use Nip\Mail\Mailer;
 use Nip\Mail\MailServiceProvider;
-use Nip\Mail\Transport\AbstractTransport;
-use Swift_Transport;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
  * Class MailServiceProviderTest
@@ -22,7 +20,7 @@ class MailServiceProviderTest extends AbstractTest
 
         $this->loadConfiguration();
 
-        static::assertInstanceOf(Mailer::class, $provider->getContainer()->get('mailer'));
-        static::assertInstanceOf(Swift_Transport::class, $provider->getContainer()->get('mailer.transport'));
+        static::assertInstanceOf(MailerInterface::class, $provider->getContainer()->get('mailer'));
+        static::assertInstanceOf(TransportInterface::class, $provider->getContainer()->get('mailer.transport'));
     }
 }

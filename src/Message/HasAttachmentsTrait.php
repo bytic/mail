@@ -2,8 +2,6 @@
 
 namespace Nip\Mail\Message;
 
-use Swift_Attachment;
-
 /**
  * Trait HasAttachmentsTrait
  * @package Nip\Mail\Message
@@ -13,10 +11,10 @@ trait HasAttachmentsTrait
     /**
      * @param $content
      * @param $name
+     * @deprecated use attach() instead
      */
     public function attachFromContent($content, $name = null, $contentType = null)
     {
-        $attachment = new Swift_Attachment($content, $name);
-        $this->attach($attachment);
+        return $this->attach($content, $name, $contentType);
     }
 }

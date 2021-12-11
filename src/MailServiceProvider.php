@@ -3,6 +3,7 @@
 namespace Nip\Mail;
 
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
+use Symfony\Component\Mailer\Mailer;
 
 /**
  * Class MailServiceProvider

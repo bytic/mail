@@ -5,6 +5,7 @@ namespace Nip\Mail\Tests;
 use Mockery\Mock;
 use Nip\Mail\Transport\SendgridTransport;
 use Nip\Mail\TransportManager;
+use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
 
 /**
  * Class TransportManagerTest
@@ -28,6 +29,6 @@ class TransportManagerTest extends AbstractTest
         $this->loadConfiguration();
 
         $sendgrid = $manager->transport('sendgrid');
-        self::assertInstanceOf(SendgridTransport::class, $sendgrid);
+        self::assertInstanceOf(SendgridApiTransport::class, $sendgrid);
     }
 }

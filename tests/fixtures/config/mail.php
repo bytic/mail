@@ -38,7 +38,7 @@ return [
 
         'sendgrid' => [
             'transport' => 'sendgrid',
-            'api_key' => env('SENDGRID_API_KEY'),
+            'api_key' => env('SENDGRID_API_KEY', "123"),
         ],
     ]
 ];

@@ -4,9 +4,9 @@ namespace Nip\Mail;
 
 use InvalidArgumentException;
 use Nip\Config\Utils\PackageHasConfigTrait;
-use Nip\Mail\Transport\AbstractTransport;
-use Nip\Mail\Transport\SendgridTransport;
-use Swift_SmtpTransport as SmtpTransport;
+use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
+use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
 
 /**
  * Class TransportManager
@@ -80,12 +80,11 @@ class TransportManager
      * Create an instance of the Mailgun Swift Transport driver.
      *
      * @param array $config
-     * @return SendgridTransport
+     * @return SendgridApiTransport
      */
-    protected function createSendgridTransport(array $config)
+    protected function createSendgridTransport(array $config): SendgridApiTransport
     {
-        $transport = new SendgridTransport();
-        $transport->setApiKey($config['api_key']);
+        $transport = new SendgridApiTransport($config['api_key']);
 
         return $transport;
     }
@@ -105,9 +104,9 @@ class TransportManager
             $config['port']
         );
 
-        if (!empty($config['encryption'])) {
-            $transport->setEncryption($config['encryption']);
-        }
+//        if (!empty($config['encryption'])) {
+//            $transport->setEncryption($config['encryption']);
+//        }
 
         // Once we have the transport we will check for the presence of a username
         // and password. If we have it we will set the credentials on the Swift
@@ -124,9 +123,9 @@ class TransportManager
     /**
      * Configure the additional SMTP driver options.
      *
-     * @param \Swift_SmtpTransport $transport
+     * @param SmtpTransport $transport
      * @param array $config
-     * @return \Swift_SmtpTransport
+     * @return SmtpTransport
      */
     protected function configureSmtpTransport($transport, array $config)
     {

@@ -2,13 +2,11 @@
 
 namespace Nip\Mail;
 
-use Swift_Message;
-
 /**
  * Class Message
  * @package Nip\Mail
  */
-class Message extends Swift_Message
+class Message extends \Symfony\Component\Mime\Email
 {
     use Message\HasMergeArgsTrait;
     use Message\HasAttachmentsTrait;
