@@ -6,9 +6,7 @@ use Nip\Mail\Message;
 use Nip\Mail\Traits\MailableTrait;
 
 /**
- * Class RecordTrait
- * @package Nip\Mail\Models\Mailable
- *
+ * Class RecordTrait.
  */
 trait RecordTrait
 {
@@ -33,11 +31,11 @@ trait RecordTrait
     public function buildMailMessageRecipients(&$message)
     {
         foreach (['to', 'cc', 'bcc', 'replyTo'] as $type) {
-            $method = 'get' . ucfirst($type) . 's';
+            $method = 'get'.ucfirst($type).'s';
             $recipients = method_exists($this, $method) ? $this->{$method}() : $this->{$type};
             if (is_array($recipients)) {
                 foreach ($recipients as $address => $name) {
-                    $message->{'add' . ucfirst($type)}($address, $name);
+                    $message->{'add'.ucfirst($type)}($address, $name);
                 }
             }
         }
@@ -85,7 +83,7 @@ trait RecordTrait
         $body = $this->getBody();
         foreach ($mergeTags as $tag => $value) {
             $encapsulated = \Nip\Mail\Models\MergeTags\RecordTrait::encapsulate($tag);
-            if (strpos($body, $encapsulated) !== false) {
+            if (false !== strpos($body, $encapsulated)) {
                 $message->addMergeTag($tag, $value);
             }
         }

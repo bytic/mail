@@ -5,8 +5,7 @@ namespace Nip\Mail\Tests\Fixtures\Models\Emails;
 use Nip\Mail\Models\Mailable\RecordTrait;
 
 /**
- * Class Email
- * @package Nip\Mail\Tests\Fixtures\Models\Emails
+ * Class Email.
  */
 class Email
 {
@@ -16,7 +15,7 @@ class Email
     protected $mergeTags = [];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getFrom()
     {
@@ -24,7 +23,7 @@ class Email
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getSubject()
     {
@@ -32,39 +31,33 @@ class Email
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getBody()
     {
         return $this->body;
     }
 
-    /**
-     * @param string $body
-     */
     public function setBody(string $body)
     {
         $this->body = $body;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getMergeTags()
     {
         return $this->mergeTags;
     }
 
-    /**
-     * @param array $mergeTags
-     */
     public function setMergeTags(array $mergeTags)
     {
         $this->mergeTags = $mergeTags;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getCustomArgs()
     {
@@ -72,7 +65,7 @@ class Email
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTos()
     {

@@ -2,17 +2,17 @@
 
 namespace Nip\Mail\Models\MergeTags;
 
-use Nip\Utility\Str;
 use InvalidArgumentException;
+use Nip\Utility\Str;
 
 /**
- * Class MergeTagsDbEncoder
- * @package Nip\Mail\Models\MergeTags
+ * Class MergeTagsDbEncoder.
  */
 class MergeTagsDbEncoder
 {
     /**
      * @param $value
+     *
      * @return false|string
      */
     public static function encode($value)
@@ -22,6 +22,7 @@ class MergeTagsDbEncoder
 
     /**
      * @param string $data
+     *
      * @return mixed
      */
     public static function decode($data)
@@ -36,15 +37,14 @@ class MergeTagsDbEncoder
         $data = json_decode($data, true);
 
         if (0 < $errorCode = json_last_error()) {
-            throw new InvalidArgumentException('Error parsing JSON: ' . static::getJSONErrorMessage($errorCode));
+            throw new InvalidArgumentException('Error parsing JSON: '.static::getJSONErrorMessage($errorCode));
         }
+
         return $data;
     }
 
     /**
      * Translates JSON_ERROR_* constant into meaningful message.
-     * @param int $errorCode
-     * @return string
      */
     protected static function getJSONErrorMessage(int $errorCode): string
     {

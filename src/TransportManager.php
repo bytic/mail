@@ -9,8 +9,7 @@ use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
 
 /**
- * Class TransportManager
- * @package Nip\Mail
+ * Class TransportManager.
  */
 class TransportManager
 {
@@ -32,6 +31,7 @@ class TransportManager
 
     /**
      * @param null $name
+     *
      * @return AbstractTransport
      */
     public function transport($name = null)
@@ -44,7 +44,8 @@ class TransportManager
     /**
      * Attempt to get the transport from the local cache.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return AbstractTransport
      */
     protected function get($name)
@@ -54,11 +55,12 @@ class TransportManager
 
     /**
      * @param string $name
+     *
      * @return AbstractTransport
      */
     protected function resolve($name)
     {
-        $config = static::getPackageConfig('mailers.' . $name);
+        $config = static::getPackageConfig('mailers.'.$name);
 
         if (is_null($config)) {
             throw new InvalidArgumentException("Mailer [{$name}] is not defined.");
@@ -69,7 +71,7 @@ class TransportManager
             return call_user_func($this->customCreators[$name], $config);
         }
 
-        if (trim($name) === '' || !method_exists($this, $method = 'create' . ucfirst($name) . 'Transport')) {
+        if ('' === trim($name) || !method_exists($this, $method = 'create'.ucfirst($name).'Transport')) {
             throw new InvalidArgumentException("Unsupported mail transport [{$name}].");
         }
 
@@ -78,9 +80,6 @@ class TransportManager
 
     /**
      * Create an instance of the Mailgun Swift Transport driver.
-     *
-     * @param array $config
-     * @return SendgridApiTransport
      */
     protected function createSendgridTransport(array $config): SendgridApiTransport
     {
@@ -92,7 +91,6 @@ class TransportManager
     /**
      * Create an instance of the SMTP Swift Transport driver.
      *
-     * @param array $config
      * @return SmtpTransport
      */
     protected function createSmtpTransport(array $config)
@@ -124,7 +122,7 @@ class TransportManager
      * Configure the additional SMTP driver options.
      *
      * @param SmtpTransport $transport
-     * @param array $config
+     *
      * @return SmtpTransport
      */
     protected function configureSmtpTransport($transport, array $config)
@@ -166,7 +164,7 @@ class TransportManager
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function getPackageConfigName()
     {

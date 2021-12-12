@@ -6,12 +6,11 @@ use Nip\Mail\Message;
 use Nip\Mail\Tests\AbstractTest;
 
 /**
- * Class HasAttachmentsTraitTest
- * @package Nip\Mail\Tests\Message
+ * Class HasAttachmentsTraitTest.
  */
 class HasAttachmentsTraitTest extends AbstractTest
 {
-    public function test_attachFromContent()
+    public function testAttachFromContent()
     {
         $message = new Message();
         $message->attachFromContent('test');

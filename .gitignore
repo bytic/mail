@@ -1,6 +1,8 @@
 .idea/workspace.xml
 .idea/usage.statistics.xml
+
 .phpunit.result.cache
+.php-cs-fixer.cache
 
 tests/_output/*
 vendor/*

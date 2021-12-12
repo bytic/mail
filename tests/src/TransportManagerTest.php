@@ -3,17 +3,15 @@
 namespace Nip\Mail\Tests;
 
 use Mockery\Mock;
-use Nip\Mail\Transport\SendgridTransport;
 use Nip\Mail\TransportManager;
 use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
 
 /**
- * Class TransportManagerTest
- * @package Nip\Mail\Tests
+ * Class TransportManagerTest.
  */
 class TransportManagerTest extends AbstractTest
 {
-    public function test_transport_returnDefaultDriver()
+    public function testTransportReturnDefaultDriver()
     {
         /** @var TransportManager|Mock $manager */
         $manager = \Mockery::mock(TransportManager::class)->shouldAllowMockingProtectedMethods()->makePartial();
@@ -23,7 +21,7 @@ class TransportManagerTest extends AbstractTest
         self::assertSame($manager->transport(), $manager->transport());
     }
 
-    public function test_createSendgridTransport()
+    public function testCreateSendgridTransport()
     {
         $manager = new TransportManager();
         $this->loadConfiguration();

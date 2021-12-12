@@ -7,8 +7,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
- * Class MailServiceProviderTest
- * @package Nip\Mail\Tests
+ * Class MailServiceProviderTest.
  */
 class MailServiceProviderTest extends AbstractTest
 {

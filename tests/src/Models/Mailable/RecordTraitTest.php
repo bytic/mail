@@ -6,12 +6,11 @@ use Nip\Mail\Tests\AbstractTest;
 use Nip\Mail\Tests\Fixtures\Models\Emails\Email;
 
 /**
- * Class RecordTraitTest
- * @package Nip\Mail\Tests\Models\Mailable
+ * Class RecordTraitTest.
  */
 class RecordTraitTest extends AbstractTest
 {
-    public function test_buildMailMessageMergeTags_strip_not_present()
+    public function testBuildMailMessageMergeTagsStripNotPresent()
     {
         $email = new Email();
         $email->setBody('{{var1}}{{var3}}');

@@ -7,7 +7,7 @@ use Nip\Container\Container;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AbstractTest
+ * Class AbstractTest.
  */
 abstract class AbstractTest extends TestCase
 {
@@ -31,7 +31,7 @@ abstract class AbstractTest extends TestCase
     protected function loadConfiguration($name = 'mail')
     {
         /** @noinspection PhpIncludeInspection */
-        $config = new Config(['mail' => require TEST_FIXTURE_PATH . '/config/' . $name . '.php']);
+        $config = new Config(['mail' => require TEST_FIXTURE_PATH.'/config/'.$name.'.php']);
         Container::getInstance()->set('config', $config);
     }
 }

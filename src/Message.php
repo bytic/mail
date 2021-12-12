@@ -3,8 +3,7 @@
 namespace Nip\Mail;
 
 /**
- * Class Message
- * @package Nip\Mail
+ * Class Message.
  */
 class Message extends \Symfony\Component\Mime\Email
 {

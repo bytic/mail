@@ -1,15 +1,35 @@
 {
   "name": "bytic/mail",
-  "type": "library",
   "description": "Php Framework",
-  "homepage": "https://github.com/bytic/mail",
   "license": "MIT",
+  "type": "library",
   "authors": [
     {
       "name": "Gabriel Solomon",
       "email": "hello@gabrielsolomon.ro"
     }
   ],
+  "homepage": "https://github.com/bytic/mail",
+  "require": {
+    "php": "^7.0 || ^8.0",
+    "ext-json": "*",
+    "bytic/config": "^0.9 || ^1.0",
+    "bytic/container": "^0.9 || ^1.0 || ^2.0",
+    "bytic/utility": "^1.0",
+    "html2text/html2text": "^4.0",
+    "symfony/http-client": "^5.0 || ^6.0",
+    "symfony/mailer": "^5.0 || ^6.0"
+  },
+  "require-dev": {
+    "bytic/database": "^0.9 || ^1.0",
+    "bytic/phpqatools": "^1.0.8",
+    "symfony/sendgrid-mailer": "^6.0"
+  },
+  "suggest": {
+    "symfony/sendgrid-mailer": "^6.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Nip\\Mail\\": "src"
@@ -20,25 +40,5 @@
       "Nip\\Mail\\Tests\\": "tests/src",
       "Nip\\Mail\\Tests\\Fixtures\\": "tests/fixtures"
     }
-  },
-  "require": {
-    "php": "^7.0|^8.0",
-    "ext-json": "*",
-    "bytic/config": "^0.9|^1.0",
-    "bytic/container": "^0.9|^1.0|^2.0",
-    "bytic/utility": "^1.0",
-    "html2text/html2text": "^4.0",
-    "symfony/http-client": "^5.0|^6.0",
-    "symfony/mailer": "^5.0|^6.0"
-  },
-  "require-dev": {
-    "bytic/database": "^0.9|^1.0",
-    "symfony/sendgrid-mailer": "^6.0",
-    "bytic/phpqatools": "^1.0.8"
-  },
-  "suggest": {
-    "symfony/sendgrid-mailer": "^6.0"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }

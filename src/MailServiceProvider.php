@@ -6,13 +6,12 @@ use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Symfony\Component\Mailer\Mailer;
 
 /**
- * Class MailServiceProvider
- * @package Nip\Mail
+ * Class MailServiceProvider.
  */
 class MailServiceProvider extends AbstractSignatureServiceProvider
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -24,6 +23,7 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
     {
         $this->getContainer()->share('mailer.transport', function () {
             $transportManager = new TransportManager();
+
             return $transportManager->transport();
         });
     }
@@ -33,12 +33,13 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
         $this->getContainer()->share('mailer', function () {
             $transport = $this->getContainer()->get('mailer.transport');
             $mailer = new Mailer($transport);
+
             return $mailer;
         });
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function provides()
     {

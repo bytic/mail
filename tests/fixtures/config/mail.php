@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
@@ -38,7 +37,7 @@ return [
 
         'sendgrid' => [
             'transport' => 'sendgrid',
-            'api_key' => env('SENDGRID_API_KEY', "123"),
+            'api_key' => env('SENDGRID_API_KEY', '123'),
         ],
-    ]
+    ],
 ];

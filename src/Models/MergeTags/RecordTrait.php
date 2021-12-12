@@ -3,8 +3,7 @@
 namespace Nip\Mail\Models\MergeTags;
 
 /**
- * Trait RecordTrait
- * @package Nip\Mail\Models\MergeTags
+ * Trait RecordTrait.
  */
 trait RecordTrait
 {
@@ -17,11 +16,12 @@ trait RecordTrait
 
     /**
      * @param string $key
+     *
      * @return string
      */
     public static function encapsulate($key)
     {
-        return '{{' . $key . '}}';
+        return '{{'.$key.'}}';
     }
 
     /**
@@ -29,7 +29,7 @@ trait RecordTrait
      */
     public function getMergeTags()
     {
-        if ($this->mergeTags === null) {
+        if (null === $this->mergeTags) {
             $this->initMergeTags();
         }
 
@@ -70,12 +70,13 @@ trait RecordTrait
     protected function getMergeTagsDbFieldValue()
     {
         $field = $this->mergeTagsDbField;
-        if (method_exists($this,'getPropertyRaw')) {
+        if (method_exists($this, 'getPropertyRaw')) {
             return $this->getPropertyRaw($field);
         }
         if (property_exists($this, $field)) {
             return $this->{$field};
         }
+
         return null;
     }
 }

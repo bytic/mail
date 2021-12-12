@@ -3,8 +3,7 @@
 namespace Nip\Mail\Message;
 
 /**
- * Trait HasMergeArgsTrait
- * @package Nip\Mail\Message
+ * Trait HasMergeArgsTrait.
  */
 trait HasMergeArgsTrait
 {
