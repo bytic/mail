@@ -11,9 +11,6 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\RawMessage;
 
-/**
- *
- */
 class MailerManager implements MailerInterface
 {
     use PackageHasConfigTrait;
@@ -36,7 +33,6 @@ class MailerManager implements MailerInterface
      * Get a mailer instance by name.
      *
      * @param string|null $name
-     * @return Mailer
      */
     public function mailer($name = null): Mailer
     {
@@ -49,6 +45,7 @@ class MailerManager implements MailerInterface
      * Attempt to get the mailer from the local cache.
      *
      * @param string $name
+     *
      * @return Mailer
      */
     protected function get($name)
@@ -60,13 +57,14 @@ class MailerManager implements MailerInterface
      * Resolve the given mailer.
      *
      * @param string $name
+     *
      * @return Mailer
      *
      * @throws \InvalidArgumentException
      */
     protected function resolve($name)
     {
-        $config = static::getPackageConfig('mailers.' . $name);
+        $config = static::getPackageConfig('mailers.'.$name);
 
         if (is_null($config)) {
             throw new InvalidArgumentException("Mailer [{$name}] is not defined.");
@@ -82,6 +80,7 @@ class MailerManager implements MailerInterface
 
         return $mailer;
     }
+
     /**
      * Get the default mail driver name.
      *
@@ -100,9 +99,10 @@ class MailerManager implements MailerInterface
      */
     public function transportManager()
     {
-        if ($this->transportManager === null) {
+        if (null === $this->transportManager) {
             $this->transportManager = Container::container()->get(TransportFactory::class);
         }
+
         return $this->transportManager;
     }
 
@@ -118,7 +118,8 @@ class MailerManager implements MailerInterface
      * Dynamically call the default driver instance.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)

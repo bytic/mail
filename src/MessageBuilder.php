@@ -2,17 +2,13 @@
 
 namespace Nip\Mail;
 
-/**
- *
- */
 class MessageBuilder
 {
-    protected $message;
-
     use MessageBuilder\CanBuild;
     use MessageBuilder\CanSend;
     use MessageBuilder\HasCallbacks;
     use MessageBuilder\MessageProxy;
+    protected $message;
 
     public function __construct()
     {
@@ -22,6 +18,7 @@ class MessageBuilder
     public function getMessage(): Message
     {
         $this->guardIsBuild();
+
         return $this->message;
     }
 }

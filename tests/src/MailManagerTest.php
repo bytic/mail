@@ -5,7 +5,6 @@ namespace Nip\Mail\Tests;
 use Mockery\Mock;
 use Nip\Mail\MailerManager;
 use Nip\Mail\Transport\TransportFactory;
-use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport\NullTransport;
 
@@ -14,7 +13,7 @@ use Symfony\Component\Mailer\Transport\NullTransport;
  */
 class MailManagerTest extends AbstractTest
 {
-    public function test_transportReturnDefaultDriver()
+    public function testTransportReturnDefaultDriver()
     {
         /** @var TransportFactory|Mock $manager */
         $manager = \Mockery::mock(MailerManager::class)->shouldAllowMockingProtectedMethods()->makePartial();

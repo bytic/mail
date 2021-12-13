@@ -1,11 +1,7 @@
 <?php
 
-
 namespace Nip\Mail\MessageBuilder;
 
-/**
- *
- */
 trait CanBuild
 {
     protected $isBuild = false;

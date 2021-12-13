@@ -4,7 +4,6 @@ namespace Nip\Mail\Tests;
 
 use Nip\Mail\MailServiceProvider;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
  * Class MailServiceProviderTest.

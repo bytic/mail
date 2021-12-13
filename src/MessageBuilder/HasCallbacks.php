@@ -4,9 +4,6 @@ namespace Nip\Mail\MessageBuilder;
 
 use Nip\Mail\Message;
 
-/**
- *
- */
 trait HasCallbacks
 {
     /**
@@ -27,6 +24,7 @@ trait HasCallbacks
      * Run the callbacks for the message.
      *
      * @param Message $message
+     *
      * @return $this
      */
     protected function runCallbacks(): self

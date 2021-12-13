@@ -135,7 +135,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/sendgrid-mailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/package-versions" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

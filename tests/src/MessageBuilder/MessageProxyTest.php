@@ -5,12 +5,9 @@ namespace Nip\Mail\Tests\MessageBuilder;
 use Nip\Mail\MessageBuilder;
 use Nip\Mail\Tests\AbstractTest;
 
-/**
- *
- */
 class MessageProxyTest extends AbstractTest
 {
-    public function test_proxy_from()
+    public function testProxyFrom()
     {
         $builder = new MessageBuilder();
         $builder->from('solomongab@yahoo.com');
@@ -19,7 +16,7 @@ class MessageProxyTest extends AbstractTest
         self::assertSame('solomongab@yahoo.com', $message->getFrom()[0]->toString());
     }
 
-    public function test_proxy_addTo()
+    public function testProxyAddTo()
     {
         $builder = new MessageBuilder();
         $builder->addTo('solomongab@yahoo.com', 'Solomon');

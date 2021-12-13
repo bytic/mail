@@ -4,16 +4,13 @@ namespace Nip\Mail\MessageBuilder;
 
 use Symfony\Component\Mime\Address;
 
-/**
- *
- */
 trait MessageProxy
 {
     /**
      * Dynamically call the default driver instance.
      *
-     * @param string $method
      * @param array $parameters
+     *
      * @return mixed
      */
     public function __call(string $method, $parameters)
@@ -25,6 +22,7 @@ trait MessageProxy
      * Set the subject of the message.
      *
      * @param string $subject
+     *
      * @return $this
      */
     public function subject($subject)
@@ -42,35 +40,39 @@ trait MessageProxy
     /**
      * @param $addresses
      * @param $type
+     *
      * @return $this
      */
     protected function addAddresses($addresses, $type): self
     {
-        $method = 'add' . ucfirst($type);
+        $method = 'add'.ucfirst($type);
         $addresses = $this->addressesToArray($addresses);
 
         $this->message->$type(...$addresses);
+
         return $this;
     }
 
     /**
      * @param $addresses
+     *
      * @return Address[]
      */
     protected function addressesToArray($addresses): array
     {
-        if (count($addresses) === 1) {
+        if (1 === count($addresses)) {
             return [new Address($addresses[0])];
         }
 
-        if (count($addresses) === 2) {
+        if (2 === count($addresses)) {
             return [new Address($addresses[0], $addresses[1])];
         }
 
         $result = [];
         foreach ($addresses as $address) {
-                $result[] = Address::create($address);
+            $result[] = Address::create($address);
         }
+
         return $result;
     }
 }

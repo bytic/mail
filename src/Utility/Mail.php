@@ -5,9 +5,6 @@ namespace Nip\Mail\Utility;
 use Nip\Container\Utility\Container;
 use Nip\Mail\Transport\TransportFactory;
 
-/**
- *
- */
 class Mail
 {
     public static function mailer($mailer = null)
@@ -17,7 +14,9 @@ class Mail
 
     /**
      * @param $transport
+     *
      * @return mixed
+     *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
