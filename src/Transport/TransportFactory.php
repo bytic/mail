@@ -1,9 +1,8 @@
 <?php
 
-namespace Nip\Mail;
+namespace Nip\Mail\Transport;
 
 use InvalidArgumentException;
-use Nip\Config\Utils\PackageHasConfigTrait;
 use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
@@ -11,65 +10,16 @@ use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
 /**
  * Class TransportManager.
  */
-class TransportManager
+class TransportFactory
 {
-    use PackageHasConfigTrait;
-
-    /**
-     * The array of resolved mailers.
-     *
-     * @var array
-     */
-    protected $transports = [];
-
-    /**
-     * The registered custom driver creators.
-     *
-     * @var array
-     */
-    protected $customCreators = [];
-
-    /**
-     * @param null $name
-     *
-     * @return AbstractTransport
-     */
-    public function transport($name = null)
-    {
-        $name = $name ?: $this->getDefaultDriver();
-
-        return $this->transports[$name] = $this->get($name);
-    }
-
-    /**
-     * Attempt to get the transport from the local cache.
-     *
-     * @param string $name
-     *
-     * @return AbstractTransport
-     */
-    protected function get($name)
-    {
-        return $this->transports[$name] ?? $this->resolve($name);
-    }
-
     /**
      * @param string $name
      *
      * @return AbstractTransport
      */
-    protected function resolve($name)
+    public function fromConfig($config)
     {
-        $config = static::getPackageConfig('mailers.'.$name);
-
-        if (is_null($config)) {
-            throw new InvalidArgumentException("Mailer [{$name}] is not defined.");
-        }
-        $config = $config->toArray();
-
-        if (isset($this->customCreators[$name])) {
-            return call_user_func($this->customCreators[$name], $config);
-        }
+        $name = $config['transport'];
 
         if ('' === trim($name) || !method_exists($this, $method = 'create'.ucfirst($name).'Transport')) {
             throw new InvalidArgumentException("Unsupported mail transport [{$name}].");
@@ -148,26 +98,5 @@ class TransportManager
         }
 
         return $transport;
-    }
-
-    /**
-     * Get the default mail driver name.
-     *
-     * @return string
-     */
-    public function getDefaultDriver()
-    {
-        // Here we will check if the "driver" key exists and if it does we will use
-        // that as the default driver in order to provide support for old styles
-        // of the Laravel mail configuration file for backwards compatibility.
-        return static::getPackageConfig('default', 'smtp');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected static function getPackageConfigName()
-    {
-        return 'mail';
     }
 }

@@ -28,10 +28,11 @@ abstract class AbstractTest extends TestCase
     /**
      * @param $name
      */
-    protected function loadConfiguration($name = 'mail')
+    protected function loadConfiguration($name = 'mail', $container = null)
     {
         /** @noinspection PhpIncludeInspection */
         $config = new Config(['mail' => require TEST_FIXTURE_PATH.'/config/'.$name.'.php']);
-        Container::getInstance()->set('config', $config);
+        $container = $container ?: Container::getInstance();
+        $container->set('config', $config);
     }
 }

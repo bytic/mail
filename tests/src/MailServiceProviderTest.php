@@ -17,9 +17,10 @@ class MailServiceProviderTest extends AbstractTest
         $provider->initContainer();
         $provider->register();
 
-        $this->loadConfiguration();
+        $this->loadConfiguration('mail', $provider->getContainer());
 
-        static::assertInstanceOf(MailerInterface::class, $provider->getContainer()->get('mailer'));
-        static::assertInstanceOf(TransportInterface::class, $provider->getContainer()->get('mailer.transport'));
+        $mailer = $provider->getContainer()->get('mailer');
+
+        static::assertInstanceOf(MailerInterface::class, $mailer);
     }
 }

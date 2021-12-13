@@ -3,37 +3,34 @@
 namespace Nip\Mail;
 
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
-use Symfony\Component\Mailer\Mailer;
+use Nip\Mail\Transport\TransportFactory;
 
 /**
  * Class MailServiceProvider.
  */
 class MailServiceProvider extends AbstractSignatureServiceProvider
 {
+    public const NAME = 'mail';
+
     /**
      * {@inheritdoc}
      */
     public function register()
     {
-        $this->registerTransport();
+        $this->registerTransportManager();
         $this->registerMailer();
     }
 
-    protected function registerTransport()
+    protected function registerTransportManager()
     {
-        $this->getContainer()->share('mailer.transport', function () {
-            $transportManager = new TransportManager();
-
-            return $transportManager->transport();
-        });
+        $this->getContainer()->share(TransportFactory::class, TransportFactory::class);
     }
 
     protected function registerMailer()
     {
         $this->getContainer()->share('mailer', function () {
-            $transport = $this->getContainer()->get('mailer.transport');
-            $mailer = new Mailer($transport);
-
+            $transportManager = $this->getContainer()->get(TransportFactory::class);
+            $mailer = new MailerManager($transportManager);
             return $mailer;
         });
     }
@@ -43,6 +40,10 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
      */
     public function provides()
     {
-        return ['mailer', 'mailer.transport'];
+        return [
+            'mailer',
+            TransportFactory::class,
+            'mailer.transportManager',
+        ];
     }
 }
