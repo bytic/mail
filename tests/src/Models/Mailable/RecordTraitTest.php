@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Tests\Models\Mailable;
 
@@ -21,5 +22,19 @@ class RecordTraitTest extends AbstractTest
 
         $tags = $message->getMergeTags();
         self::assertCount(2, $tags);
+    }
+
+    public function test_body_get_setters()
+    {
+        $email = new Email();
+        $email->writeData([
+            'body' => '{{var1}}{{var2}}',
+            'merge_tags' => [
+                'var1' => 1,
+                'var2' => 2,
+            ],
+        ]);
+
+        self::assertSame('{{var1}}{{var2}}', $email->getBody());
     }
 }

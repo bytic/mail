@@ -22,6 +22,7 @@
   },
   "require-dev": {
     "bytic/database": "^0.9 || ^1.0",
+    "bytic/orm": "^0.9 || ^1.0",
     "bytic/phpqatools": "^1.0.8",
     "symfony/sendgrid-mailer": "^6.0"
   },

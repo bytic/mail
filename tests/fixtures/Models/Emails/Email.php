@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Nip\Mail\Tests\Fixtures\Models\Emails;
 
 use Nip\Mail\Models\Mailable\RecordTrait;
+use Nip\Records\Record;
 
 /**
  * Class Email.
  */
-class Email
+class Email extends Record
 {
     use RecordTrait;
 
