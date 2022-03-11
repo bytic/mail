@@ -52,4 +52,18 @@ class RecordTraitTest extends AbstractTest
         self::assertCount(2, $tos);
         self::assertSame('test2@gmail.com', $tos[1]->getAddress());
     }
+
+    public function test_buildMailMessageBody()
+    {
+        $email = new Email();
+        $email->setBody('{{var1}}{{var2}}');
+
+        $message = $email->newMailMessage();
+        $message->addFrom('test@test.com');
+        $message->addTo('test@test.com');
+
+        $email->buildMailMessageBody($message);
+
+        self::assertStringContainsString('{{var1}}{{var2}}', (string)$message->getBody()->toString());
+    }
 }
