@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Models\Mailable;
 
 use Nip\Mail\Message;
 use Nip\Mail\Traits\MailableTrait;
+use Nip\Mail\Utility\Address;
 
 /**
  * Class RecordTrait.
@@ -31,12 +33,10 @@ trait RecordTrait
     public function buildMailMessageRecipients(&$message)
     {
         foreach (['to', 'cc', 'bcc', 'replyTo'] as $type) {
-            $method = 'get'.ucfirst($type).'s';
+            $method = 'get' . ucfirst($type) . 's';
             $recipients = method_exists($this, $method) ? $this->{$method}() : $this->{$type};
             if (is_array($recipients)) {
-                foreach ($recipients as $address => $name) {
-                    $message->{'add'.ucfirst($type)}($address, $name);
-                }
+                $message->{'add' . ucfirst($type)}(Address::fromArray($recipients));
             }
         }
     }
@@ -46,13 +46,13 @@ trait RecordTrait
      */
     public function buildMailMessageSubject(&$message)
     {
-        $message->setSubject($this->getSubject());
+        $message->subject((string) $this->getSubject());
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    abstract public function getSubject();
+    abstract public function getSubject(): ?string;
 
     /**
      * @param Message $message

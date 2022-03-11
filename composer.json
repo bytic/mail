@@ -33,7 +33,10 @@
   "autoload": {
     "psr-4": {
       "Nip\\Mail\\": "src"
-    }
+    },
+    "classmap": [
+      "_legacy"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

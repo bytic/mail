@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Tests\Fixtures\Models\Emails;
 
@@ -25,9 +26,9 @@ class Email
     /**
      * {@inheritDoc}
      */
-    public function getSubject()
+    public function getSubject(): ?string
     {
-        // TODO: Implement getSubject() method.
+        return '';
     }
 
     /**
