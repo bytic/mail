@@ -94,6 +94,27 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/package-versions" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ergebnis/json-schema-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/asset" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webpack-encore-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/routing" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/error-handler" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/orm" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/helpers" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/seo-meta" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/namefy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/flash" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/google-analytics" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/data-objects" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/router" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/html-helpers" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/pipeline" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-cached-adapter" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/pipeline" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/mime-type-detection" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

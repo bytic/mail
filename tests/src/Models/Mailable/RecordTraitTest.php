@@ -37,4 +37,19 @@ class RecordTraitTest extends AbstractTest
 
         self::assertSame('{{var1}}{{var2}}', $email->getBody());
     }
+
+    public function test_buildMailMessageRecipients()
+    {
+        $email = new Email();
+        $email->writeData([
+            'to' => 'test1@gmail.com, test2@gmail.com'
+        ]);
+
+        $message = $email->newMailMessage();
+        $email->buildMailMessageRecipients($message);
+
+        $tos = $message->getTo();
+        self::assertCount(2, $tos);
+        self::assertSame('test2@gmail.com', $tos[1]->getAddress());
+    }
 }

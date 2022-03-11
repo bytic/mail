@@ -71,6 +71,6 @@ class Email extends Record
      */
     public function getTos()
     {
-        // TODO: Implement getTos() method.
+        return explode(',', $this->get('to'));
     }
 }
