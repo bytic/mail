@@ -2,7 +2,7 @@
 
 namespace Nip\Mail\Traits;
 
-use Nip\Mail\Mailer;
+use Symfony\Component\Mailer\Mailer;
 
 /**
  * Class MailerAwareTrait.

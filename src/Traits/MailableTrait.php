@@ -2,8 +2,9 @@
 
 namespace Nip\Mail\Traits;
 
-use Nip\Mail\Mailer;
 use Nip\Mail\Message;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Mailer;
 
 /**
  * Class MailableTrait.
@@ -13,7 +14,7 @@ trait MailableTrait
     use MailerAwareTrait;
 
     /**
-     * @return int
+     * @return void
      */
     public function send()
     {
@@ -21,10 +22,11 @@ trait MailableTrait
         $message = $this->buildMailMessage();
 
         $this->beforeSend($mailer, $message);
-        $recipients = $mailer->send($message);
-        $this->afterSend($mailer, $message, $recipients);
-
-        return $recipients;
+        try {
+            $mailer->send($message);
+            $this->afterSend($mailer, $message);
+        } catch (TransportExceptionInterface $e) {
+        }
     }
 
     /**
@@ -55,7 +57,7 @@ trait MailableTrait
     }
 
     /**
-     * @param Mailer  $mailer
+     * @param Mailer $mailer
      * @param Message $message
      */
     protected function beforeSend($mailer, $message)
@@ -63,11 +65,11 @@ trait MailableTrait
     }
 
     /**
-     * @param Mailer  $mailer
+     * @param Mailer $mailer
      * @param Message $message
-     * @param int     $recipients
+     * @param int $recipients
      */
-    protected function afterSend($mailer, $message, $recipients)
+    protected function afterSend($mailer, $message)
     {
     }
 
