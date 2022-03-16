@@ -1,13 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nip\Mail\Utility;
 
 use Symfony\Component\Mime\Address as SymfonyAddress;
 
-/**
- *
- */
 class Address
 {
     public static function fromArray(array $addresses): array
@@ -23,6 +21,7 @@ class Address
                 continue;
             }
         }
+
         return $return;
     }
 
@@ -34,7 +33,6 @@ class Address
     /**
      * @param $email
      * @param $name
-     * @return SymfonyAddress
      */
     public static function create($email, $name = null): SymfonyAddress
     {

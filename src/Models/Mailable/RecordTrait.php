@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nip\Mail\Models\Mailable;
@@ -33,10 +34,10 @@ trait RecordTrait
     public function buildMailMessageRecipients(&$message)
     {
         foreach (['to', 'cc', 'bcc', 'replyTo'] as $type) {
-            $method = 'get' . ucfirst($type) . 's';
+            $method = 'get'.ucfirst($type).'s';
             $recipients = method_exists($this, $method) ? $this->{$method}() : $this->{$type};
             if (is_array($recipients)) {
-                $message->{'add' . ucfirst($type)}(...Address::fromArray($recipients));
+                $message->{'add'.ucfirst($type)}(...Address::fromArray($recipients));
             }
         }
     }
