@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Transport;
 
 use InvalidArgumentException;
-use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridApiTransport;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
 
@@ -31,9 +31,10 @@ class TransportFactory
     /**
      * Create an instance of the Mailgun Swift Transport driver.
      */
-    protected function createSendgridTransport(array $config): SendgridApiTransport
+    protected function createSendgridTransport(array $config): SendgridRestTransport
     {
-        $transport = new SendgridApiTransport($config['api_key']);
+        $transport = new SendgridRestTransport();
+        $transport->setApiKey($config['api_key']);
 
         return $transport;
     }

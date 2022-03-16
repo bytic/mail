@@ -89,7 +89,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mailer" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/sendgrid-mailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/package-versions" />
@@ -115,6 +114,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-cached-adapter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/pipeline" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/mime-type-detection" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sendgrid/sendgrid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/starkbank/ecdsa" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sendgrid/php-http-client" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

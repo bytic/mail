@@ -6,6 +6,9 @@ namespace Nip\Mail\Utility;
 
 use Symfony\Component\Mime\Address as SymfonyAddress;
 
+/**
+ *
+ */
 class Address
 {
     public static function fromArray(array $addresses): array

@@ -1,12 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Utility;
 
 use Nip\Container\Utility\Container;
 use Nip\Mail\Transport\TransportFactory;
 
+/**
+ *
+ */
 class Mail
 {
+    /**
+     * @param $mailer
+     * @return mixed|null
+     */
     public static function mailer($mailer = null)
     {
         return $mailer;
