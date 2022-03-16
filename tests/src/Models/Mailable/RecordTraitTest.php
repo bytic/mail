@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Nip\Mail\Tests\Models\Mailable;
 
+use Mockery\Mock;
 use Nip\Mail\Tests\AbstractTest;
 use Nip\Mail\Tests\Fixtures\Models\Emails\Email;
 
@@ -40,10 +41,16 @@ class RecordTraitTest extends AbstractTest
 
     public function test_buildMailMessageRecipients()
     {
-        $email = new Email();
+        /** @var Mock|Email $email */
+        $email = \Mockery::mock(Email::class)->shouldAllowMockingProtectedMethods()->makePartial();
         $email->writeData([
             'to' => 'test1@gmail.com, test2@gmail.com'
         ]);
+        $email->bcc = [
+            'testbcc1@gmail.com' => 'Test 1',
+            'testbcc2@gmail.com' => 'Test 2'
+        ];
+
 
         $message = $email->newMailMessage();
         $email->buildMailMessageRecipients($message);

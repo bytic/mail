@@ -19,7 +19,7 @@ class Address
                 continue;
             }
             if (is_string($key) && is_string($value)) {
-                $return[$key] = static::create($key, $value);
+                $return[] = static::create($key, $value);
                 continue;
             }
         }
