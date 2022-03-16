@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nip\Mail\Tests\Models\Mailable;
@@ -44,13 +45,12 @@ class RecordTraitTest extends AbstractTest
         /** @var Mock|Email $email */
         $email = \Mockery::mock(Email::class)->shouldAllowMockingProtectedMethods()->makePartial();
         $email->writeData([
-            'to' => 'test1@gmail.com, test2@gmail.com'
+            'to' => 'test1@gmail.com, test2@gmail.com',
         ]);
         $email->bcc = [
             'testbcc1@gmail.com' => 'Test 1',
-            'testbcc2@gmail.com' => 'Test 2'
+            'testbcc2@gmail.com' => 'Test 2',
         ];
-
 
         $message = $email->newMailMessage();
         $email->buildMailMessageRecipients($message);
@@ -71,6 +71,6 @@ class RecordTraitTest extends AbstractTest
 
         $email->buildMailMessageBody($message);
 
-        self::assertStringContainsString('{{var1}}{{var2}}', (string)$message->getBody()->toString());
+        self::assertStringContainsString('{{var1}}{{var2}}', (string) $message->getBody()->toString());
     }
 }

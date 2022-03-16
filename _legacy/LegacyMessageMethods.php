@@ -1,17 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nip\Mail;
 
-/**
- *
- */
 trait LegacyMessageMethods
 {
-
     /**
      * @param $from
+     *
      * @deprecated use addFrom() instead
+     *
      * @return $this
      */
     public function setFrom($from): self
@@ -21,7 +20,9 @@ trait LegacyMessageMethods
 
     /**
      * @param $subject
+     *
      * @deprecated use subject() instead
+     *
      * @return $this
      */
     public function setSubject($subject): self
