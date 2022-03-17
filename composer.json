@@ -17,7 +17,8 @@
     "bytic/container": "^0.9 || ^1.0 || ^2.0",
     "bytic/utility": "^1.0",
     "symfony/http-client": "^5.0 || ^6.0",
-    "symfony/mailer": "^5.0 || ^6.0"
+    "symfony/mailer": "^5.0 || ^6.0",
+    "html2text/html2text": "^4.3"
   },
   "require-dev": {
     "bytic/database": "^0.9 || ^1.0",
@@ -26,6 +27,7 @@
     "sendgrid/sendgrid": "^7.0"
   },
   "suggest": {
+    "sendgrid/sendgrid": "^7.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

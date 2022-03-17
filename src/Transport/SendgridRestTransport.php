@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Nip\Mail\Transport;
 
 use Exception;
+use Html2Text\Html2Text;
 use Nip\Mail\Message;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
@@ -16,6 +17,7 @@ use SendGrid\Mail\To;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Part\DataPart;
 
 /**
@@ -86,26 +88,25 @@ class SendgridRestTransport extends AbstractTransport
     {
         $emailsTos = $message->getTo();
         $personalizationIndex = 0;
-        foreach ($emailsTos as $emailTo => $nameTo) {
-            $personalization = $this->generatePersonalization($emailTo, $nameTo, $message, $personalizationIndex);
+        foreach ($emailsTos as $emailTo) {
+            $personalization = $this->generatePersonalization($emailTo, $message, $personalizationIndex);
             $mail->addPersonalization($personalization);
             $personalizationIndex++;
         }
     }
 
     /**
-     * @param $emailTo
-     * @param $nameTo
+     * @param Address $emailTo
      * @param Message $message
      * @param integer $i
      * @return Personalization
      * @throws SendGrid\Mail\TypeException
      */
-    protected function generatePersonalization($emailTo, $nameTo, Message $message, $i): Personalization
+    protected function generatePersonalization(Address $emailTo, Message $message, $i): Personalization
     {
         $personalization = new Personalization();
 
-        $email = new To($emailTo, $nameTo);
+        $email = new To($emailTo->getAddress(), $emailTo->getName());
         $personalization->addTo($email);
 
         $personalization->setSubject($message->getSubject());
@@ -132,11 +133,15 @@ class SendgridRestTransport extends AbstractTransport
         foreach ($message->getAttachments() as $attachment) {
             $this->addAttachment($attachment, $mail);
         }
+        $bodyHtml = $message->getHtmlBody();
+        $bodyText = $message->getTextBody();
 
-        $content = new Content("text/plain", $message->getTextBody());
+        $bodyText = $bodyText ?? (new Html2Text($bodyHtml))->getText();
+
+        $content = new Content("text/plain", $bodyText);
         $mail->addContent($content);
 
-        $content = new Content("text/html", $message->getHtmlBody());
+        $content = new Content("text/html", $bodyHtml);
         $mail->addContent($content);
     }
 
