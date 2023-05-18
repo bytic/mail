@@ -73,10 +73,13 @@ class SendgridRestTransport extends AbstractTransport
             $mail->setFrom($address->getAddress(), $address->getName());
             $mail->setReplyTo($address->getAddress(), $address->getName());
         }
+
         $reply = $message->getReplyTo();
         foreach ($reply as $address) {
             $mail->setReplyTo($address->getAddress(), $address->getName());
         }
+
+
     }
 
     /**
@@ -108,6 +111,12 @@ class SendgridRestTransport extends AbstractTransport
 
         $email = new To($emailTo->getAddress(), $emailTo->getName());
         $personalization->addTo($email);
+
+        $bcc = $message->getBcc();
+        foreach ($bcc as $address) {
+            $email = new SendGrid\Mail\Bcc($address->getAddress(), $address->getName());
+            $personalization->addBcc($email);
+        }
 
         $personalization->setSubject($message->getSubject());
 
