@@ -24,10 +24,12 @@
     "bytic/database": "^0.9 || ^1.0",
     "bytic/orm": "^0.9 || ^1.0",
     "bytic/phpqatools": "^1.0.8",
-    "sendgrid/sendgrid": "^7.0||^8.0"
+    "sendgrid/sendgrid": "^7.0||^8.0",
+    "symfony/amazon-mailer": "^5.0 || ^6.0"
   },
   "suggest": {
-    "sendgrid/sendgrid": "^7.0||^8.0"
+    "sendgrid/sendgrid": "^7.0||^8.0",
+    "symfony/amazon-mailer": "^5.0 || ^6.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace Nip\Mail\Transport;
 
 use InvalidArgumentException;
+use Symfony\Component\Mailer\Bridge\Amazon\Transport\SesTransportFactory;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport as SmtpTransport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
  * Class TransportManager.
@@ -21,7 +24,7 @@ class TransportFactory
     {
         $name = $config['transport'];
 
-        if ('' === trim($name) || !method_exists($this, $method = 'create'.ucfirst($name).'Transport')) {
+        if ('' === trim($name) || !method_exists($this, $method = 'create' . ucfirst($name) . 'Transport')) {
             throw new InvalidArgumentException("Unsupported mail transport [{$name}].");
         }
 
@@ -37,6 +40,24 @@ class TransportFactory
         $transport->setApiKey($config['api_key']);
 
         return $transport;
+    }
+
+    /**
+     * Create an instance of the Ses Transport driver.
+     */
+    protected function createSesTransport(array $config): TransportInterface
+    {
+        $dsn = new Dsn(
+            $config['scheme'] ?? 'ses',
+            'default',
+            $config['key'] ?? null,
+            $config['secret'] ?? null,
+            null,
+            [
+                'region' => $config['region'] ?? null,
+            ]
+        );
+        return (new SesTransportFactory())->create($dsn);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 return [
     /*
@@ -46,6 +47,9 @@ return [
 
         'ses' => [
             'transport' => 'ses',
+            'key' => env('AWS_SES_KEY'),
+            'secret' => env('AWS_SES_SECRET'),
+            'region' => env('AWS_DEFAULT_REGION', 'eu-central-1'),
         ],
 
         'sendgrid' => [
