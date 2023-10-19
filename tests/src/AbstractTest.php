@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Mail\Tests;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Nip\Config\Config;
 use Nip\Container\Container;
 use PHPUnit\Framework\TestCase;
@@ -11,17 +13,14 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractTest extends TestCase
 {
-    protected $object;
+    use MockeryPHPUnitIntegration;
 
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    protected $object;
 
     public function tearDown(): void
     {
         parent::tearDown();
-        \Mockery::close();
+        $this->mockeryAssertPostConditions();
         Container::getInstance()->set('config', null);
     }
 

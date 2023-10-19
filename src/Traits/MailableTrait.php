@@ -2,6 +2,7 @@
 
 namespace Nip\Mail\Traits;
 
+use Nip\Mail\Mailable\Actions\SendEmail;
 use Nip\Mail\Message;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
@@ -23,7 +24,7 @@ trait MailableTrait
 
         $this->beforeSend($mailer, $message);
         try {
-            $mailer->send($message);
+            SendEmail::run($mailer, $message);
             $this->afterSend($mailer, $message);
         } catch (TransportExceptionInterface $e) {
         }
