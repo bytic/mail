@@ -5,18 +5,18 @@ namespace Nip\Mail\Mailable\Actions;
 
 use Bytic\Actions\Action;
 use Nip\Mail\Message;
-use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 
 /**
  *
  */
 class SendEmail extends Action
 {
-    protected Mailer $mailer;
+    protected MailerInterface $mailer;
 
     protected Message $originalMessage;
 
-    public function handle(Mailer $mailer, Message $originalMessage)
+    public function handle(MailerInterface $mailer, Message $originalMessage)
     {
         $this->mailer = $mailer;
         $this->originalMessage = $originalMessage;
@@ -81,12 +81,18 @@ class SendEmail extends Action
         $newMessage->subject(
             strtr($newMessage->getSubject(), $substitutions)
         );
-        $newMessage->html(
-            strtr($newMessage->getHtmlBody(), $substitutions)
-        );
-        $newMessage->text(
-            strtr($newMessage->getTextBody(), $substitutions)
-        );
+
+        $html = $newMessage->getHtmlBody();
+        if (is_string($html)) {
+            $html = strtr($html, $substitutions);
+        }
+        $newMessage->html($html);
+
+        $text = $newMessage->getTextBody();
+        if (is_string($text)) {
+            $text = strtr($text, $substitutions);
+        }
+        $newMessage->text($text);
     }
 
     /**
