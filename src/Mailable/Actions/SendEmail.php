@@ -65,8 +65,15 @@ class SendEmail extends Action
         $message->replyTo(...$originalMessage->getReplyTo());
         $message->bcc(...$originalMessage->getBcc());
         $message->subject((string) $originalMessage->getSubject());
-        $message->html($originalMessage->getHtmlBody());
-        $message->text($originalMessage->getTextBody());
+
+        $html = $originalMessage->getHtmlBody();
+        $text = $originalMessage->getTextBody();
+        if (empty($html) && empty($text)) {
+            throw new \InvalidArgumentException('Message must have at least a text or html body');
+        }
+        $message->html($html);
+        $message->text($text);
+
         $attachments = $originalMessage->getAttachments();
         foreach ($attachments as $attachment) {
             $message->addPart($attachment);
