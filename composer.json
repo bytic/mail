@@ -13,20 +13,20 @@
   "require": {
     "php": "^7.4 || ^8.0",
     "ext-json": "*",
-    "bytic/actions": "dev-main",
-    "bytic/config": "^0.9 || ^1.0",
+    "bytic/actions": "dev-main||^1.0||2.0",
+    "bytic/config": "^1.0 || ^2.0",
     "bytic/container": "^0.9 || ^1.0 || ^2.0",
     "bytic/utility": "^1.0",
-    "symfony/http-client": "^5.0 || ^6.0",
-    "symfony/mailer": "^5.0 || ^6.0",
+    "symfony/http-client": "^5.0 || ^6.0 || ^7.0",
+    "symfony/mailer": "^5.0 || ^6.0 || ^7.0",
     "html2text/html2text": "^4.3"
   },
   "require-dev": {
-    "bytic/database": "^0.9 || ^1.0",
-    "bytic/orm": "^0.9 || ^1.0",
-    "bytic/phpqatools": "^1.0.8",
+    "bytic/database": "^0.9 || ^1.0 || ^2.0",
+    "bytic/orm": "^0.9 || ^1.0 || ^2.0",
+    "bytic/phpqatools": "^1.0",
     "sendgrid/sendgrid": "^7.0||^8.0",
-    "symfony/amazon-mailer": "^5.0 || ^6.0"
+    "symfony/amazon-mailer": "^5.0 || ^6.0 || ^7.0"
   },
   "suggest": {
     "sendgrid/sendgrid": "^7.0||^8.0",
