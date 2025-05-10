@@ -4,6 +4,7 @@ namespace Nip\Mail;
 
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Nip\Mail\Transport\TransportFactory;
+use Nip\Router\Router;
 
 /**
  * Class MailServiceProvider.
@@ -23,7 +24,13 @@ class MailServiceProvider extends AbstractSignatureServiceProvider
 
     protected function registerTransportManager()
     {
-        $this->getContainer()->share(TransportFactory::class, TransportFactory::class);
+        $factory = new TransportFactory();
+        $this->getContainer()->share('mailer.transportManager', function () use ($factory) {
+            return $factory;
+        });
+        $this->getContainer()->share(TransportFactory::class, function () {
+            return $this->getContainer()->get('mailer.transportManager');
+        });
     }
 
     protected function registerMailer()
